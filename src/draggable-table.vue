@@ -39,9 +39,9 @@ export default {
             });
             clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
             a.context[binding.expression] = [];
-            Vue.nextTick(function() {
-              a.context[binding.expression] = clonedItems;
-            });
+            //Vue.nextTick(function() {
+            //  a.context[binding.expression] = clonedItems;
+            //});
           }
         });
       }
