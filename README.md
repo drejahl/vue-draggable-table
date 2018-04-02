@@ -1,1 +1,1 @@
-# Business Model Canvas Component for VueJS 2.x
+# Draggable, sortable and filterable table component for VueJS 2.x
