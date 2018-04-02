@@ -1,0 +1,140 @@
+<template>
+  <div class="draggable-table">
+    <table class="table">
+      <thead v-draggable="myColumns">
+        <template v-for="column in myColumns">
+          <th is="tableHeader" :column="column" :sort="sort" v-on:sortcolumn="sortCol" ></th>
+        </template>
+      </thead>
+      <tbody>
+        <tr is="tableRow" v-for="(row,index) in filteredData" :key="index" :row="row" :columns="myColumns">
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+
+import tableHeader from './table-header.vue';
+import tableRow from './table-row.vue';
+import Sortable from 'sortablejs';
+
+export default {
+  name: 'draggable-table',
+  components: {
+    tableHeader,
+    tableRow
+  },
+  directives: {
+    draggable: {
+      inserted: function(el, binding, a) {
+        const self = this;
+        Sortable.create(el, {
+          draggable: ".draggable",
+          onEnd: function(e) {
+            var clonedItems = a.context[binding.expression].filter(function(item) {
+              return item;
+            });
+            clonedItems.splice(e.newIndex, 0, clonedItems.splice(e.oldIndex, 1)[0]);
+            a.context[binding.expression] = [];
+            Vue.nextTick(function() {
+              a.context[binding.expression] = clonedItems;
+            });
+          }
+        });
+      }
+    }
+  },
+  props: {
+    records: Array,
+    columns: Array,
+    sort: Object
+  },
+  data () {
+    return {
+      searchQuery: "",
+      myColumns: []
+    }
+  },
+  mounted: function() {
+    this.myColumns = this.columns;
+  },
+  methods: {
+    sortCol: function(data) {
+      var column = data.column;
+      if (!column.sortable) return;
+
+      //respond to click vs set from settings
+      if (data.event) {
+        //change sort order
+        if (this.sort.on === column.id) {
+          //change sort order
+          if (this.sort.direction === "desc" || !this.sort.direction) {
+            this.sort.direction = "asc";
+          } else {
+            this.sort.direction = "desc";
+          }
+        } else {
+          //change sort column, default to asc
+          this.sort.on = column.id;
+          this.sort.direction = "asc";
+          this.sort.type = column.type;
+        }
+      }
+
+      var direction = this.sort.direction;
+      var on = this.sort.on;
+      var type = this.sort.type; //fixme implement search functions per type
+
+      this.records.sort(function(a, b) {
+        if (direction === "asc") {
+          return getProp(a, on).localeCompare(getProp(b, on));
+        } else if (direction === "desc") {
+          return getProp(b, on).localeCompare(getProp(a, on));
+        }
+      });
+    }
+  },
+  computed: {
+    filteredData: function() {
+      var filterKey = this.searchQuery && this.searchQuery.toLowerCase();
+      var data = this.records;
+      var cols = this.myColumns;
+      if (filterKey) {
+        data = data.filter(function(row) {
+          return cols.reduce(function(accumulator, col) {
+            if (accumulator || !col.id) {
+              return accumulator;
+            }
+            var colVal = col.id;
+
+            return (
+              String(getProp(row, colVal)).toLowerCase().indexOf(filterKey) > -1
+            );
+          }, false);
+        });
+      }
+      return data;
+    }
+  }
+
+}
+
+function getProp(obj, path) {
+  var parts = path.split(".");
+  while (parts.length) {
+    obj = obj[parts.shift()];
+  }
+  return obj;
+}
+
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.draggable {
+  cursor: move;
+}
+</style>
