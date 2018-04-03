@@ -1,7 +1,7 @@
 <template>
   <tr>
     <template v-for="column in columns">
-      <td v-show="!column.hide">{{row[column.id]}}</td>
+      <td style="text-align: left;" v-show="!column.hide">{{row[column.id]}}</td>
     </template>
   </tr>
 </template>

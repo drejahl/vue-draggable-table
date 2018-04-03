@@ -48,7 +48,7 @@ export default {
     }
   },
   props: {
-    records: Array,
+    records: Object,
     columns: Array,
     sort: Object
   },
@@ -86,40 +86,55 @@ export default {
 
       var direction = this.sort.direction;
       var on = this.sort.on;
-      var type = this.sort.type; //fixme implement search functions per type
+      var type = this.sort.type;
 
-      this.records.sort(function(a, b) {
-        if (direction === "asc") {
-          return getProp(a, on).localeCompare(getProp(b, on));
-        } else if (direction === "desc") {
-          return getProp(b, on).localeCompare(getProp(a, on));
-        }
-      });
+      if (this.records && this.records._embedded) {
+        this.records._embedded.item.sort(function(a, b) {
+          if (type === "string") {
+            var propA = getProp(a, on);
+            var propB = getProp(b, on);
+            if (direction === "asc") {
+              return propA.localeCompare(propB);
+            } else if (direction === "desc") {
+              return propB.localeCompare(propA);
+            }
+          } else {
+            if (direction === "asc") {
+              return a<b;
+            } else if (direction === "desc") {
+              return b<=a;
+            }
+          }
+        });
+      }
     }
   },
   computed: {
     filteredData: function() {
-      var filterKey = this.searchQuery && this.searchQuery.toLowerCase();
-      var data = this.records;
-      var cols = this.myColumns;
-      if (filterKey) {
-        data = data.filter(function(row) {
-          return cols.reduce(function(accumulator, col) {
-            if (accumulator || !col.id) {
-              return accumulator;
-            }
-            var colVal = col.id;
+      if (this.records && this.records._embedded) {
+        var filterKey = this.searchQuery && this.searchQuery.toLowerCase();
+        var data = this.records._embedded.item;
+        var cols = this.myColumns;
+        if (filterKey) {
+          data = data.filter(function(row) {
+            return cols.reduce(function(accumulator, col) {
+              if (accumulator || !col.id) {
+                return accumulator;
+              }
+              var colVal = col.id;
 
-            return (
-              String(getProp(row, colVal)).toLowerCase().indexOf(filterKey) > -1
-            );
-          }, false);
-        });
+              return (
+                String(getProp(row, colVal)).toLowerCase().indexOf(filterKey) > -1
+              );
+            }, false);
+          });
+        }
+        return data;
+      } else {
+        return [];
       }
-      return data;
     }
   }
-
 }
 
 function getProp(obj, path) {
