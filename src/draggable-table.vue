@@ -48,7 +48,7 @@ export default {
     }
   },
   props: {
-    records: Object,
+    records: Array,
     columns: Array,
     sort: Object
   },
