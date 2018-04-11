@@ -11,6 +11,7 @@
     "build": "rimraf ./dist && webpack --config ./webpack.config.js"
   },
   "dependencies": {
+    "fecha": "^2.3.3",
     "sortablejs": "^1.7.0",
     "vue": "^2.5.13"
   },
