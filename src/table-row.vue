@@ -2,7 +2,7 @@
   <tr>
     <template v-for="column in columns">
       <td style="text-align: left;" v-show="!column.hide && column.type === 'string' && !column.linkAway">
-        {{row[column.id]}}
+        {{getColumn(column)}}
       </td>
       <td style="text-align: right;" v-show="!column.hide && column.type === 'number' && !column.linkAway">
         {{row[column.id]}}
@@ -30,6 +30,9 @@ export default {
     formatedDate: function(d,f){
       console.log("DATE", d)
       return fecha.format( parseInt(d),f);
+    },
+    getColumn: function(column) {
+      return this.row[column.id] ? this.row[column.id] : this.row[column.altId];
     }
   }
 }
