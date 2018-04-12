@@ -2,12 +2,15 @@
   <div class="draggable-table">
     <table class="table">
       <thead v-draggable="myColumns">
+        <th style="text-align: left;" v-if="selectablerows">
+        </th>
         <template v-for="column in myColumns">
           <th is="tableHeader" :column="column" :sort="sort" v-on:sortcolumn="sortCol" ></th>
         </template>
       </thead>
       <tbody>
-        <tr is="tableRow" v-for="(row,index) in filteredData" :key="index" :row="row" :columns="myColumns">
+        <tr is="tableRow" v-for="(row,index) in filteredData"
+          :key="index" :row="row" :columns="myColumns" :selectablerows="selectablerows">
         </tr>
       </tbody>
     </table>
@@ -50,7 +53,8 @@ export default {
   props: {
     records: Object,
     columns: Array,
-    sort: Object
+    sort: Object,
+    selectablerows: Boolean
   },
   data () {
     return {
