@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td style="text-align: left;" width="10px" v-if="selectablerows">
-      <v-checkbox light ripple v-model="row.selected"></v-checkbox>
+      <v-checkbox light ripple v-model="cb" @change="changed"></v-checkbox>
     </td>
     <template v-for="column in columns">
       <td style="text-align: left;" v-if="!column.hide && column.type === 'chip' && !column.linkAway">
@@ -31,14 +31,21 @@ import fecha from 'fecha'
 
 export default {
   name: 'table-row',
-  props: ["row", "columns", "selectablerows"],
+  props: ["row", "columns", "selectablerows", "index"],
+  data() {
+    return {
+      cb: false
+    }
+  },
   methods: {
     formatedDate: function(d,f){
-      console.log("DATE", d)
       return fecha.format( parseInt(d),f);
     },
     getColumn: function(column) {
       return this.row[column.id] ? this.row[column.id] : this.row[column.altId];
+    },
+    changed: function () {
+       this.$emit('rowToggle', { index: this.index, newValue: this.cb });
     }
   }
 }

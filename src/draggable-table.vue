@@ -9,8 +9,8 @@
         </template>
       </thead>
       <tbody>
-        <tr is="tableRow" v-for="(row,index) in filteredData"
-          :key="index" :row="row" :columns="myColumns" :selectablerows="selectablerows">
+        <tr is="tableRow" v-for="(row,index) in filteredData" :selectablerows="selectablerows"
+          :key="index" :index="index" @rowToggle="rowToggle" :row="row" :columns="myColumns">
         </tr>
       </tbody>
     </table>
@@ -54,7 +54,8 @@ export default {
     records: Object,
     columns: Array,
     sort: Object,
-    selectablerows: Boolean
+    selectablerows: Boolean,
+    selected: Array
   },
   data () {
     return {
@@ -66,6 +67,17 @@ export default {
     this.myColumns = this.columns;
   },
   methods: {
+    rowToggle: function(cb) {
+      if (this.records._embedded.numSelected === undefined) {
+        this.records._embedded.numSelected = 0;
+      }
+      this.selected[cb.index] = cb.newValue;
+      if (cb.newValue === true) {
+        this.records._embedded.numSelected++;
+      } else {
+        this.records._embedded.numSelected--;
+      }
+    },
     sortCol: function(data) {
       var column = data.column;
       if (!column.sortable) return;
