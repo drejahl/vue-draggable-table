@@ -43,8 +43,6 @@ export default {
     },
     getColumn: function(column) {
       let c = this.row[column.id] ? this.row[column.id] : this.row[column.altId];
-      console.log("L", c.length)
-      console.log("C", JSON.stringify(column))
       if (column.truncate && c.length > column.truncate) {
         c = c.substring(0, column.truncate-1) + '...';
       }
