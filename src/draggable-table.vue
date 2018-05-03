@@ -5,7 +5,7 @@
         <th style="text-align: left;" v-if="selectablerows">
         </th>
         <template v-for="column in myColumns">
-          <th is="tableHeader" :column="column" :sort="sort" v-on:sortcolumn="sortCol" ></th>
+          <th is="tableHeader" :column="column" :sort="sort" v-on:sortcolumn="sortCol"></th>
         </template>
       </thead>
       <tbody>
@@ -55,11 +55,11 @@ export default {
     columns: Array,
     sort: Object,
     selectablerows: Boolean,
-    selected: Array
+    selected: Array,
+    searchQuery: String
   },
   data () {
     return {
-      searchQuery: "",
       myColumns: []
     }
   },

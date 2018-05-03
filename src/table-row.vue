@@ -42,7 +42,13 @@ export default {
       return fecha.format( parseInt(d),f);
     },
     getColumn: function(column) {
-      return this.row[column.id] ? this.row[column.id] : this.row[column.altId];
+      let c = this.row[column.id] ? this.row[column.id] : this.row[column.altId];
+      console.log("L", c.length)
+      console.log("C", JSON.stringify(column))
+      if (column.truncate && c.length > column.truncate) {
+        c = c.substring(0, column.truncate-1) + '...';
+      }
+      return c;
     },
     changed: function () {
        this.$emit('rowToggle', { index: this.index, newValue: this.cb });
