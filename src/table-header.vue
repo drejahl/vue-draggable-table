@@ -2,9 +2,9 @@
     <th style="text-align: left;" v-show="!column.hide"
       :class="{draggable: column.canMove}" @click="sortMe({column: column, event: true})">
       {{column.name}}
-      <!--i v-if="column.sortable && sort.on === column.id" class="fa" :class="{'fa-sort-amount-asc': sort.direction === 'asc',
-          'fa-sort-amount-desc': sort.direction === 'desc'}" aria-hidden="true">
-      </i-->
+      <ion-icon v-if="column.sortable && sort.on === column.id && sort.direction === 'asc'" name="arrow-dropdown"></ion-icon>
+      <ion-icon v-if="column.sortable && sort.on === column.id && sort.direction === 'desc'" name="arrow-dropup"></ion-icon>
+      </i>
     </th>
 </template>
 
