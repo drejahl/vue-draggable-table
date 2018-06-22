@@ -9,7 +9,7 @@
         </template>
       </thead>
       <tbody>
-        <tr is="tableRow" v-for="(row,index) in filteredData" :selectablerows="selectablerows"
+        <tr :style="row.style" is="tableRow" v-for="(row,index) in filteredData" :selectablerows="selectablerows"
           :key="index" :index="index" @rowToggle="rowToggle" :row="row" :columns="myColumns">
         </tr>
       </tbody>

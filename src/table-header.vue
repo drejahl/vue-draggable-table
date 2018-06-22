@@ -18,7 +18,7 @@ export default {
     }
   },
   mounted: function() {
-    if (this.column.type==="number" || this.column.type==="moneyGBP") {
+    if ((this.column.type==="number" && !this.column.linkAway) || this.column.type==="moneyGBP") {
       this.style="text-align: right";
     } else {
       this.style="text-align: left";
