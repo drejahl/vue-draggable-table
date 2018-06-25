@@ -7,6 +7,9 @@
       <td style="text-align: left;" v-if="!column.hide && column.type === 'chip' && !column.linkAway">
         <v-chip v-for="(c,i) in getColumn(column)" :key="i">{{c}}</v-chip>
       </td>
+      <td style="text-align: left;" v-if="!column.hide && column.type === 'linkList'">
+        <router-link v-for="link in getColumnJSON(column)" :to="link.link" :key="link.link">{{link.label}}</router-link>
+      </td>
       <td style="text-align: left;" v-show="!column.hide && column.type === 'string' && !column.linkAway">
         {{getColumn(column)}}
       </td>
@@ -17,7 +20,7 @@
         {{row[column.id]}}
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type != 'icon' && column.linkAway">
-        <router-link :to="row[column.linkAway]">{{row[column.id]}}</router-link>
+        <router-link :to="row[column.linkAway]">{{row[column.id]}}</router-link><span/>
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type === 'icon'  && !column.linkAway">
         <i class="icon material-icons">{{row[column.id]}}</i>
@@ -54,6 +57,15 @@ export default {
   methods: {
     formatedDate: function(d,f){
       return fecha.format( parseInt(d),f);
+    },
+    getColumnJSON: function(column) {
+      let c = this.row[column.id];
+
+      console.log("C", c)
+      return c;
+    },
+    changed: function () {
+       this.$emit('rowToggle', { index: this.index, newValue: this.cb });
     },
     getColumn: function(column) {
       let c = this.row[column.id] ? this.row[column.id] : this.row[column.altId];
