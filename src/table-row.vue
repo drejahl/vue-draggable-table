@@ -28,6 +28,9 @@
       <td style="text-align: left;" v-if="!column.hide && column.type === 'date'">
         {{formatedDate(row[column.id], column.dateFormat)}}
       </td>
+      <td style="text-align: left;" v-if="!column.hide && column.type === 'avatar'">
+        <img style="height: 30px; width: 30px; border-radius: 15px;" :src="row[column.id]"/>
+      </td>
     </template>
   </tr>
 </template>
