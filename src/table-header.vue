@@ -19,9 +19,12 @@ export default {
   },
   mounted: function() {
     if ((this.column.type==="number" && !this.column.linkAway) || this.column.type==="moneyGBP") {
-      this.style="text-align: right";
+      this.style="text-align: right; ";
     } else {
-      this.style="text-align: left";
+      this.style="text-align: left; ";
+    }
+    if (this.column.style) {
+      this.style = this.style.concat(this.column.style);
     }
   },
   methods: {
