@@ -8,7 +8,9 @@
         <v-chip v-for="(c,i) in getColumn(column)" :key="i">{{c}}</v-chip>
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type === 'linkList'">
-        <router-link v-for="link in getColumnJSON(column)" :to="link.link" :key="link.link">{{link.label}}</router-link>
+        <div v-for="(link,i) in getColumnJSON(column)" :key="link.link">
+          <router-link :to="link.link">{{link.label}}</router-link>
+        </div>
       </td>
       <td style="text-align: left;" v-show="!column.hide && column.type === 'string' && !column.linkAway">
         {{getColumn(column)}}
