@@ -22,7 +22,8 @@
         {{row[column.id]}}
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type != 'icon' && column.linkAway">
-        <router-link :to="row[column.linkAway]">{{row[column.id]}}</router-link><span/>
+        <router-link v-if="row[column.linkAway]" :to="row[column.linkAway]">{{row[column.id]}}</router-link>
+        <span v-else>{{row[column.id]}}</span>
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type === 'icon'  && !column.linkAway">
         <i class="icon material-icons">{{row[column.id]}}</i>

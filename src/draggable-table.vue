@@ -168,4 +168,10 @@ function getProp(obj, path) {
 .draggable {
   cursor: move;
 }
+.draggable-table {
+  width: 100%;
+}
+.table {
+  width: 100%;
+}
 </style>
