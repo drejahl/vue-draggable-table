@@ -5,7 +5,7 @@
     </td>
     <template v-for="column in columns">
       <td style="text-align: left;" v-if="!column.hide && column.type === 'chip' && !column.linkAway">
-        <v-chip v-for="(c,i) in getColumn(column)" :key="i">{{c}}</v-chip>
+        <v-chip small :color="row.chipColor" :textColor="row.chipTextColor" v-for="(c,i) in getColumn(column)" :key="i">{{c}}</v-chip>
       </td>
       <td style="text-align: left;" v-if="!column.hide && column.type === 'linkList'">
         <div v-for="(link,i) in getColumnJSON(column)" :key="link.link">
@@ -65,10 +65,7 @@ export default {
       return fecha.format( parseInt(d),f);
     },
     getColumnJSON: function(column) {
-      let c = this.row[column.id];
-
-      console.log("C", c)
-      return c;
+      return this.row[column.id];
     },
     changed: function () {
        this.$emit('rowToggle', { index: this.index, newValue: this.cb });
