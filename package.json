@@ -4,6 +4,11 @@
   "description": "Draggable table component for VueJS 2.x",
   "author": "Dirk Rejahl",
   "main": "./lib/vue-draggable-table.min.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drejahl/vue-draggable-table.git"
+  },
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config test/ui/build/webpack.dev.conf.js",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
